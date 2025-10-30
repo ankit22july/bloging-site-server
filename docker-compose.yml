@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:14-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+    ports:
+      - '5432:5432'
+    volumes:
+      # This maps your SQL script for initialization
+      - ./db-init/init.sql:/docker-entrypoint-initdb.d/init.sql 
+      # This maps your new data folder to the container's data directory
+      - ./db-init/data:/var/lib/postgresql/data
+
+# We no longer need the top-level volumes key, as we are not using a named volume

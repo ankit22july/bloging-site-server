@@ -1,0 +1,18 @@
+meta {
+  name: New HTTP Request
+  type: http
+  seq: 1
+}
+
+get {
+  url: http://localhost:8080/api/users/bruno_user
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+      "username": "bruno_user",
+      "password": "password123"
+    }
+}
