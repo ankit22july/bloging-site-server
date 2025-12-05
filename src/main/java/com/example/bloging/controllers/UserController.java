@@ -1,4 +1,5 @@
 package com.example.bloging.controllers;
+
 import com.example.bloging.controllers.UserDto; // Corrected import for UserDto
 import com.example.bloging.entities.User;
 import com.example.bloging.services.UserService; // Corrected package name
@@ -41,25 +42,24 @@ public class UserController {
         return ResponseEntity.ok(new JwtResponse(token));
     }
 
-   @GetMapping("/{username}")
-public ResponseEntity<UserDto> getUserByUsername(@PathVariable String username) {
-    User user = userService.findByUsername(username);
-    return ResponseEntity.ok(UserDto.fromUser(user)); 
-}
-
+    @GetMapping("/{username}")
+    public ResponseEntity<UserDto> getUserByUsername(@PathVariable String username) {
+        User user = userService.findByUsername(username);
+        return ResponseEntity.ok(UserDto.fromUser(user));
+    }
 
     // Inner class for the request payload
     public static class SignUpRequest {
-        
+
         @NotBlank(message = "Username cannot be empty")
         @Pattern(regexp = "^[a-zA-Z0-9_.]+$", message = "Username can only contain letters, numbers, dots, and underscores")
         @Size(min = 3, max = 50, message = "Username must be between 3 and 50 characters")
         private String username;
-        
+
         @NotBlank(message = "Email cannot be blank")
         @Email(message = "Email should be a valid email address")
         private String email;
-        
+
         @NotBlank(message = "Password cannot be blank")
         @Pattern(regexp = "^(?=.*[A-Z])(?=.*[!@#$%^&*()]).{8,}$", message = "Password must be at least 8 characters long, with one uppercase letter and one special character.")
         private String password;

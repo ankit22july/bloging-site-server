@@ -1,11 +1,17 @@
 package com.example.bloging.entities;
 
 import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import java.time.Instant;
+import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
-public class User {
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -72,5 +78,35 @@ public class User {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(role.name()));
+    }
+
+    @Override
+    public String getPassword() {
+        return passwordHash;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true; // You can add logic here for account expiration
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true; // You can add logic here for account locking
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true; // You can add logic here for password expiration
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true; // You can add logic here to disable users
     }
 }
