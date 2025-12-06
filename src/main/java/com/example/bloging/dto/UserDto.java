@@ -1,4 +1,4 @@
-package com.example.bloging.controllers;
+package com.example.bloging.dto;
 
 import com.example.bloging.entities.Role;
 import com.example.bloging.entities.User;

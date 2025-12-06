@@ -5,6 +5,9 @@
 *.log
 logs/
 
+# db files
+db-init/data
+
 # Maven
 /target/
 pom.xml.tag

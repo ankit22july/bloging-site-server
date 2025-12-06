@@ -1,6 +1,6 @@
 package com.example.bloging.controllers;
 
-import com.example.bloging.controllers.UserDto; // Corrected import for UserDto
+import com.example.bloging.dto.UserDto;
 import com.example.bloging.entities.User;
 import com.example.bloging.services.UserService; // Corrected package name
 import jakarta.validation.Valid;
@@ -8,8 +8,6 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-
-import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
