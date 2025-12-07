@@ -21,6 +21,8 @@ public class PostService {
         post.setTitle(dto.getTitle());
         post.setContent(dto.getContent());
         post.setAuthor(user);
+        post.setTags(dto.getTags());
+        post.setIsPublished(dto.getIsPublished());
         return postRepository.save(post);
     }
 }
