@@ -1,6 +1,9 @@
 package com.example.bloging.controllers;
 
 import com.example.bloging.dto.CreatePostDto;
+import com.example.bloging.dto.PostDto;
+import com.example.bloging.entities.Post;
+import com.example.bloging.entities.User;
 import com.example.bloging.services.PostService;
 
 import org.springframework.http.HttpStatus;
@@ -25,14 +28,9 @@ public class PostController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> createPost(@RequestBody CreatePostDto req) {
-        try {
-            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            String username = auth.getName(); // <-- this gives username from token
-            String saved = postService.createPost(req, username);
-            return new ResponseEntity<>(saved, HttpStatus.CREATED);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+    public ResponseEntity<PostDto> createPost(@RequestBody CreatePostDto req) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Post createdPost = postService.createPost(req, user);
+        return new ResponseEntity<>(PostDto.fromPost(createdPost), HttpStatus.CREATED);
     }
 }
