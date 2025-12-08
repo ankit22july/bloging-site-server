@@ -1,0 +1,24 @@
+meta {
+  name: Get Post using Id
+  type: http
+  seq: 1
+}
+
+get {
+  url: http://localhost:8080/api/post/{{id}}
+  body: none
+  auth: inherit
+}
+
+headers {
+  authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJicnVub191c2VyIiwiaWQiOjQsInJvbGUiOiJST0xFX1VTRVIiLCJpYXQiOjE3NjUyMTQ4ODEsImV4cCI6MTc2NTMwMTI4MX0.1oRXWxImoOsqoCHOHqbz8zoATLqrGxn4MrFes5M7b4ebB5P-V_FqOjVyACBGuRgnuafquluGicyHjVc6ti9eAw
+}
+
+vars:pre-request {
+  id: 4
+}
+
+settings {
+  encodeUrl: false
+  timeout: 0
+}

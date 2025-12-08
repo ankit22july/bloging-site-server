@@ -1,25 +1,31 @@
 meta {
-  name: New HTTP Request
+  name: Create Post
   type: http
-  seq: 1
+  seq: 2
 }
 
 post {
   url: http://localhost:8080/api/post/create
   body: json
-  auth: none
+  auth: inherit
+}
+
+headers {
+  content-type: application/json
 }
 
 body:json {
-  { 
+  {
     "title": "My First Blog Post Title",
     "content": "This is the body of the new blog post, which is being created via the API.",
-    "tags": ["firstpost"],
+    "tags": [
+      "firstpost"
+    ],
     "author": "Jane Doe",
     "publishedDate": "2025-12-04"
-   }
-  
+  }
 }
 
-
-
+settings {
+  encodeUrl: false
+}
