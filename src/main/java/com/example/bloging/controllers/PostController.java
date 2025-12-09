@@ -7,6 +7,7 @@ import com.example.bloging.entities.Post;
 import com.example.bloging.entities.User;
 import com.example.bloging.services.PostService;
 
+import java.nio.file.AccessDeniedException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -15,6 +16,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.Authentication;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -54,6 +56,14 @@ public class PostController {
                 .map(PostDto::fromPost)
                 .collect(Collectors.toList());
         return new ResponseEntity<>(userPostsDto, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deletePost(@PathVariable Long id) throws AccessDeniedException {
+        User author = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        postService.deletePostById(id, author);
+        String successMessage = "Post ID " + id + " deleted successfully.";
+        return new ResponseEntity<>(successMessage, HttpStatus.OK);
     }
 
 }

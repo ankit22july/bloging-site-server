@@ -7,6 +7,9 @@ import com.example.bloging.entities.User;
 import com.example.bloging.exceptions.ResourceNotFoundException;
 import com.example.bloging.repositories.PostRepository;
 
+import jakarta.transaction.Transactional;
+
+import java.nio.file.AccessDeniedException;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,5 +42,33 @@ public class PostService {
 
     public List<Post> findPostsByUserId(User author) {
         return postRepository.findByAuthor(author);
+    }
+
+
+
+    private static final String ROLE_ADMIN = "ROLE_ADMIN";
+    private static final String ROLE_MAINTAINER = "ROLE_MAINTAINER";
+
+    @Transactional
+    public PostDto deletePostById(Long postId, User author) throws AccessDeniedException {
+        Post postToDelete = postRepository.findById(postId)
+                .orElseThrow(() -> new ResourceNotFoundException("Post not found with id: " + postId));
+        boolean isAdminOrMaintainer = author.getAuthorities().stream()
+                .anyMatch(authority -> authority.getAuthority().equals(ROLE_ADMIN) ||
+                        authority.getAuthority().equals(ROLE_MAINTAINER));
+        if (!isAdminOrMaintainer) {
+
+            if (!postToDelete.getAuthor().getId().equals(author.getId())) {
+
+                throw new AccessDeniedException("User is not authorized to delete post with id: " + postId);
+            }
+        }
+
+        PostDto deletedPostDto = PostDto.fromPost(postToDelete);
+
+        postRepository.delete(postToDelete);
+
+        return deletedPostDto;
+
     }
 }

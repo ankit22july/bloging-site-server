@@ -1,0 +1,19 @@
+meta {
+  name: Delete Post using Id
+  type: http
+  seq: 1
+}
+
+delete {
+  url: http://localhost:8080/api/post/{{id}}
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbmtpdCIsImlkIjo1LCJyb2xlIjoiUk9MRV9BRE1JTiIsImlhdCI6MTc2NTI5OTkzNiwiZXhwIjoxNzY1Mzg2MzM2fQ.RY-TrRz8WpKMzCPpLiNHVgZnLDisl8dyTDM3dNCQJSRxCiGtrqd49kY-vcSd42_gdQRYLvhA-dLwc06s8S1TWA
+}
+
+vars:pre-request {
+  id: 1
+}
