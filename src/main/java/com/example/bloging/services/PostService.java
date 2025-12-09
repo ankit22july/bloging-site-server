@@ -44,31 +44,56 @@ public class PostService {
         return postRepository.findByAuthor(author);
     }
 
-
-
     private static final String ROLE_ADMIN = "ROLE_ADMIN";
     private static final String ROLE_MAINTAINER = "ROLE_MAINTAINER";
 
+    // @Transactional
+    // public PostDto deletePostById(Long postId, User author) throws
+    // AccessDeniedException {
+    // Post postToDelete = postRepository.findById(postId)
+    // .orElseThrow(() -> new ResourceNotFoundException("Post not found with id: " +
+    // postId));
+    // boolean isAdminOrMaintainer = author.getAuthorities().stream()
+    // .anyMatch(authority -> authority.getAuthority().equals(ROLE_ADMIN) ||
+    // authority.getAuthority().equals(ROLE_MAINTAINER));
+    // if (!isAdminOrMaintainer) {
+
+    // if (!postToDelete.getAuthor().getId().equals(author.getId())) {
+
+    // throw new AccessDeniedException("User is not authorized to delete post with
+    // id: " + postId);
+    // }
+    // }
+
+    // PostDto deletedPostDto = PostDto.fromPost(postToDelete);
+
+    // postRepository.delete(postToDelete);
+
+    // return deletedPostDto;
+
+    // }
+
     @Transactional
-    public PostDto deletePostById(Long postId, User author) throws AccessDeniedException {
+    public void deletePostById(Long postId, User author) throws AccessDeniedException {
         Post postToDelete = postRepository.findById(postId)
                 .orElseThrow(() -> new ResourceNotFoundException("Post not found with id: " + postId));
+
+        if (postToDelete.isDeleted()) {
+            throw new ResourceNotFoundException("Post not found with id: " + postId);
+        }
+
         boolean isAdminOrMaintainer = author.getAuthorities().stream()
                 .anyMatch(authority -> authority.getAuthority().equals(ROLE_ADMIN) ||
                         authority.getAuthority().equals(ROLE_MAINTAINER));
-        if (!isAdminOrMaintainer) {
+        boolean isAuthor = postToDelete.getAuthor().getId().equals(author.getId());
 
+        if (!isAdminOrMaintainer && !isAuthor) {
             if (!postToDelete.getAuthor().getId().equals(author.getId())) {
-
                 throw new AccessDeniedException("User is not authorized to delete post with id: " + postId);
             }
         }
+        postToDelete.setDeleted(true);
 
-        PostDto deletedPostDto = PostDto.fromPost(postToDelete);
-
-        postRepository.delete(postToDelete);
-
-        return deletedPostDto;
-
+        postRepository.save(postToDelete);
     }
 }

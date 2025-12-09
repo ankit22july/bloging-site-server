@@ -15,6 +15,7 @@ CREATE TABLE posts (
     author_id BIGINT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
     tags TEXT[], 
     is_published BOOLEAN DEFAULT FALSE,
+    is_deleted BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -26,8 +27,6 @@ CREATE TABLE comments (
     post_id BIGINT NOT NULL REFERENCES posts(id) ON DELETE CASCADE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-
-
 
 -- Insert some seed data into the users table
 INSERT INTO users (username, email, password_hash, role) VALUES

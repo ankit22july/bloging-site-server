@@ -7,11 +7,15 @@ meta {
 post {
   url: http://localhost:8080/api/post/create
   body: json
-  auth: inherit
+  auth: bearer
 }
 
 headers {
   content-type: application/json
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJicnVub191c2VyIiwiaWQiOjQsInJvbGUiOiJST0xFX1VTRVIiLCJpYXQiOjE3NjUzMDUyNjgsImV4cCI6MTc2NTM5MTY2OH0.uI0qTTT70eh_nsYEKpyheb_cdG8TE9o_pEPHzpDFrqkHyjK2tM8YMbn-RAXvFJEbMC1m-tipevvClNgu5Za7WA
 }
 
 body:json {

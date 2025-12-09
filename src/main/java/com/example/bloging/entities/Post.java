@@ -20,6 +20,9 @@ public class Post {
     @Column(nullable = false, length = 200) // Matching VARCHAR(200)
     private String title;
 
+    @Column(name = "is_deleted", nullable = false)
+    private Boolean isDeleted = false;
+
     @Column(columnDefinition = "TEXT", nullable = false)
     private String content;
 
@@ -121,6 +124,14 @@ public class Post {
 
     public Instant getUpdatedAt() {
         return updatedAt;
+    }
+
+    public void setDeleted(boolean isDeleted) {
+        this.isDeleted = isDeleted;
+    }
+
+    public boolean isDeleted() {
+        return this.isDeleted;
     }
 
     // Setters for createdAt/updatedAt are generally omitted
