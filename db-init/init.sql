@@ -28,6 +28,9 @@ CREATE TABLE comments (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+ALTER TABLE users
+ADD COLUMN is_deleted BOOLEAN DEFAULT FALSE;
+
 -- Insert some seed data into the users table
 INSERT INTO users (username, email, password_hash, role) VALUES
 ('john_doe', 'john.doe@example.com', '5f4dcc3b5aa765d61d8327deb882cf99', 'ROLE_ADMIN'),

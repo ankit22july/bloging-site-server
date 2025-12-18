@@ -17,7 +17,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.media.Schema;
 
+@Tag(name = "User API", description = "User authentication and profile APIs")
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
@@ -28,18 +33,21 @@ public class UserController {
         this.userService = userService;
     }
 
+    @Operation(summary = "User signup", description = "Register a new user")
     @PostMapping("/signup")
     public ResponseEntity<UserDto> signUp(@Valid @RequestBody SignUpRequest request) {
         User newUser = userService.signUp(request.getUsername(), request.getEmail(), request.getPassword());
         return new ResponseEntity<>(UserDto.fromUser(newUser), HttpStatus.CREATED);
     }
 
+    @Operation(summary = "User login", description = "Login and get JWT token")
     @PostMapping("/login")
     public ResponseEntity<JwtResponse> login(@Valid @RequestBody LoginRequest request) {
         String token = userService.login(request.getUsername(), request.getPassword());
         return ResponseEntity.ok(new JwtResponse(token));
     }
 
+    @Operation(summary = "Get user by username")
     @GetMapping("/{username}")
     public ResponseEntity<UserDto> getUserByUsername(@PathVariable String username) {
         User user = userService.findByUsername(username);
@@ -47,6 +55,7 @@ public class UserController {
     }
 
     // Inner class for the request payload
+    @Schema(description = "Signup request payload")
     public static class SignUpRequest {
 
         @NotBlank(message = "Username cannot be empty")
@@ -89,6 +98,7 @@ public class UserController {
     }
 
     // Inner class for the login request payload
+    @Schema(description = "Login request payload")
     public static class LoginRequest {
         @NotBlank(message = "Username or email cannot be blank")
         private String username;
@@ -115,6 +125,7 @@ public class UserController {
     }
 
     // Inner class for the JWT response payload
+    @Schema(description = "JWT response payload")
     public static class JwtResponse {
         private String token;
 

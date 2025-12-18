@@ -2,6 +2,10 @@ package com.example.bloging.entities;
 
 import io.hypersistence.utils.hibernate.type.array.ListArrayType;
 import org.hibernate.annotations.Type;
+import org.hibernate.annotations.Where;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import org.hibernate.annotations.Parameter;
 
 import jakarta.persistence.*;
@@ -11,6 +15,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "posts")
+@Where(clause = "is_deleted = false")
 public class Post {
 
     @Id
@@ -19,6 +24,8 @@ public class Post {
 
     @Column(nullable = false, length = 200) // Matching VARCHAR(200)
     private String title;
+
+  
 
     @Column(name = "is_deleted", nullable = false)
     private Boolean isDeleted = false;

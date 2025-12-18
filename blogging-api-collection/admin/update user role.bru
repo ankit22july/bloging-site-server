@@ -1,0 +1,15 @@
+meta {
+  name: update user role
+  type: http
+  seq: 1
+}
+
+put {
+  url: http://localhost:8080/api/admin/users/6/role/maintainer
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbmFueWFfamFpbiIsImlkIjo1LCJyb2xlIjoiUk9MRV9BRE1JTiIsImlhdCI6MTc2NTkwOTQwMiwiZXhwIjoxNzY1OTk1ODAyfQ.Hb7OK_aUre8qp23mqVv2N8ftfP-hR8EnNZAT4BzATY-DNv_rPacY9hjOrvqBMPbfwp0WsqzTvOqZr5OEEY_CMw
+}

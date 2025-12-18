@@ -7,18 +7,13 @@ meta {
 get {
   url: http://localhost:8080/api/post/{{id}}
   body: none
-  auth: inherit
+  auth: bearer
 }
 
-headers {
-  authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJicnVub191c2VyIiwiaWQiOjQsInJvbGUiOiJST0xFX1VTRVIiLCJpYXQiOjE3NjUyMTQ4ODEsImV4cCI6MTc2NTMwMTI4MX0.1oRXWxImoOsqoCHOHqbz8zoATLqrGxn4MrFes5M7b4ebB5P-V_FqOjVyACBGuRgnuafquluGicyHjVc6ti9eAw
+auth:bearer {
+  token: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbmFueWFfamFpbiIsImlkIjo1LCJyb2xlIjoiUk9MRV9VU0VSIiwiaWF0IjoxNzY1ODE3MTg3LCJleHAiOjE3NjU5MDM1ODd9.vwJWF7qeyV1O1CVT3Q00ZBE-x3c-ffKOzK3vJkzLY6YCpmGhm3m3Tzikx0SKa0_k6NMeqJi7Rs8iTqtJ5R0Txg
 }
 
 vars:pre-request {
-  id: 4
-}
-
-settings {
-  encodeUrl: false
-  timeout: 0
+  id: 13
 }

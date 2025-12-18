@@ -23,7 +23,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 
+@Tag(name = "Post API", description = "Create, view, and delete blog posts")
 @RestController
 @RequestMapping("/api/post")
 public class PostController {
@@ -35,6 +40,8 @@ public class PostController {
         this.postService = postService;
     }
 
+    @Operation(summary = "Create a post", description = "Create a new blog post for the authenticated user")
+    @ApiResponse(responseCode = "201", description = "Post created successfully")
     @PostMapping("/create")
     public ResponseEntity<PostDto> createPost(@RequestBody CreatePostDto req) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -42,12 +49,15 @@ public class PostController {
         return new ResponseEntity<>(PostDto.fromPost(createdPost), HttpStatus.CREATED);
     }
 
+    @Operation(summary = "Get post by ID", description = "Fetch a blog post using post ID")
+    @ApiResponse(responseCode = "200", description = "Post fetched successfully")
     @GetMapping("/{id}")
     public ResponseEntity<PostDto> getPostById(@PathVariable Long id) {
         Post post = postService.findPostById(id);
         return new ResponseEntity<>(PostDto.fromPost(post), HttpStatus.OK);
     }
 
+    @Operation(summary = "Get my posts", description = "Get all posts created by the logged-in user")
     @GetMapping("/myposts")
     public ResponseEntity<List<PostDto>> getAllPostsByUserId() {
         User author = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -58,6 +68,7 @@ public class PostController {
         return new ResponseEntity<>(userPostsDto, HttpStatus.OK);
     }
 
+    @Operation(summary = "Delete post", description = "Delete a post created by the authenticated user")
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deletePost(@PathVariable Long id) throws AccessDeniedException {
         User author = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
